@@ -1,3 +1,20 @@
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Amlogic_logo.svg/500px-Amlogic_logo.svg.png" alt="Amlogic Logo" width="200"/>
+</p>
+
+<h1 align="center">Amlogic NN SDK Demo</h1>
+
+<p align="center">
+  🧠 Image Classification & Object Detection on Amlogic Boards  
+  <br>
+  <a href="https://github.com/your-repo/amlogic-nn-demo"><img src="https://img.shields.io/badge/GitHub-Repository-blue?logo=github" alt="GitHub"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Build-Passing-brightgreen?logo=cmake" alt="Build"></a>
+  <a href="#"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Platform-Yocto%20Linux-orange" alt="Platform"></a>
+</p>
+
+---
+
 # Amlogic AI Software Development Kit
 
 ## Intro
@@ -48,3 +65,4 @@ https://github.com/alibaba/MNN
 
 
 Apache 2.0
+
