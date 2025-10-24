@@ -55,16 +55,8 @@ chmod +x tf_delegate_detect_32
 - You can test other models or images by placing them in the corresponding `case/` subdirectory and adjusting the command parameters.
 - This project is intended for rapid validation of the **Amlogic NN Delegate** on embedded boards.
 
----
 
-## 📜 License
-This project is provided for evaluation and development purposes with Amlogic NN SDK.
 
----
-
-<p align="center">
-  Made with ❤️ for Embedded AI Development
-</p>
 
 
 
