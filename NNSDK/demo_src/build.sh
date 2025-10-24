@@ -7,12 +7,12 @@ if [[ $# -ne 1 ]]; then
 fi
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CASE_DIR="${ROOT_DIR}/case"
+CASE_DIR="${ROOT_DIR}/demo"
 TARGET="${1}"
 
 case "${TARGET}" in
   classify)
-    PROJECT_DIR="${ROOT_DIR}/example/classify"
+    PROJECT_DIR="${ROOT_DIR}/demo_src/classify"
     CASE_SUBDIR="${CASE_DIR}/classify"
     YOCTO_BIN_NAME="tf_delegate_classify"
     ;;
@@ -29,10 +29,10 @@ esac
 
 YOCTO_BUILD_ROOT="${ROOT_DIR}/build/yocto_${TARGET}"
 
-CMAKE_BIN="${CMAKE_BIN:-/mnt/fileroot/xinxin.he/environment/cmake/cmake-3.24.0-linux-x86_64/bin/cmake}"
+CMAKE_BIN="${CMAKE_BIN:-/your/cmake/path/cmake-3.24.0-linux-x86_64/bin/cmake}"
 
-YOCTO_SDK_ROOT_32="${YOCTO_SDK_ROOT_32:-/mnt/fileroot/xinxin.he/environment/new-yocto/32}"
-YOCTO_SDK_ROOT_64="${YOCTO_SDK_ROOT_64:-/mnt/fileroot/xinxin.he/environment/new-yocto/64}"
+YOCTO_SDK_ROOT_32="${YOCTO_SDK_ROOT_32:-/your/yocto/root/path/environment/new-yocto/32}"
+YOCTO_SDK_ROOT_64="${YOCTO_SDK_ROOT_64:-/your/yocto/root/path/environment/new-yocto/64}"
 YOCTO_ARCH_BITS=("32" "64")
 
 ensure_cmake() {
