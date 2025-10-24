@@ -57,6 +57,19 @@ chmod +x tf_delegate_detect_32
 
 
 
+## 📘 API Introduction
+
+For detailed API usage and interface documentation, please refer to the following file:
+
+📄 [NNSDK/Docs/API-Introduction-EN.pdf](./NNSDK/Docs/API-Introduction-EN.pdf)
+
+This document contains:
+- Function definitions and parameter explanations
+- Interface usage examples
+- Integration guidelines for developers
 
 
+## 🧰 Environment Setup & Rebuild (Optional)
 
+For detailed rebuid from source, please refer to the following file:
+📄 [NNSDK/demo_src/readme.md](./NNSDK/demo_src/readme.md)
