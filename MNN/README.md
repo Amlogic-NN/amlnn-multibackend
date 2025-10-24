@@ -154,9 +154,18 @@ C:\path\of\MNN>adb shell "cd /data/MNN_demo;./multiPose.out resource/model-mobil
 ```
 
 ​	4.4 result show
+<p align="center">
+<img src="https://github.com/user-attachments/assets/29c84e9d-5ee4-4561-9f53-8f6c0d7d537a" width="800" alt="MNN Architecture"/>
+<br>
+<em>Figure 1. post detection in</em>
+</p>
 
-![006](C:\D\project\096_delegate\001_t6w\test\006.jpeg)
+
+<p align="center">
+<img src="https://github.com/user-attachments/assets/75ad51bc-a48c-4228-9b35-cc6eb198a841" width="800" alt="MNN Architecture"/>
+<br>
+<em>Figure 2. pos detection out</em>
+</p>
 
 
 
-![006_out](C:\D\project\096_delegate\001_t6w\test\006_out.jpg)
