@@ -60,10 +60,18 @@ https://github.com/alibaba/MNN
 
 
 
-## License
+## 📜 License
 
 
 Apache 2.0
+This project is provided for evaluation and development purposes with Amlogic NN SDK.
+
+
+---
+
+<p align="center">
+  Made with ❤️ for Embedded AI Development
+</p>
 
 
 
