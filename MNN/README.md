@@ -168,4 +168,25 @@ C:\path\of\MNN>adb shell "cd /data/MNN_demo;./multiPose.out resource/model-mobil
 </p>
 
 
+### 4. Directory Layout
+
+```
+    ├── Docs
+    │   ├── MNN_quick_start_guid.md
+    ├── MNN_demo
+    │   ├── mnn_test           # object detection demo
+    │   ├── multiPose.out      # pose detection demo
+    │   └── resource
+    │       ├── mobilenetv2-12.mnn
+    │       ├── model-mobilenet_v1_075_fixed.mnn
+    │       ├── pose_input1.jpeg
+    │       ├── pose_input2.jpeg
+    │       ├── test_input.bin
+    │       └── test_input.jpeg
+    └── MNN_lib
+    │	└── 32
+    │    	└── libMNN.so      # MNN library
+    └── TOOL                   # MNNCovert
+```
+
 
