@@ -55,7 +55,7 @@ We currently support two deployment paths:
 
 ### 📌 1. NNSDK Development
 
-If your board supports NPU and you choose **NNSDK** for development:  
+If your board does not support NPU and you choose **NNSDK** for development:  
 ```bash
 # Refer to the official NNSDK documentation
 ```
@@ -103,4 +103,5 @@ It is intended for evaluation and development purposes with **Amlogic NN SDK**.
 <p align="center">
   Made with ❤️ for Embedded AI Development
 </p>
+
 
