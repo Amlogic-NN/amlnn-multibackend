@@ -16,6 +16,12 @@
 Place the script under `/opt/yocto-toolchain` and run it to install.
 
 ### 3. Configure and Rebuild
+⚠ Build Notes
+
+Before rebuilding the demo, please **edit the `build.sh` script** and set the correct paths for your local environment:
+<img width="700" height="150" alt="image" src="https://github.com/user-attachments/assets/ce7cd0a6-0c6b-47ab-8558-16ce9d459a2e" />
+
+
 ```bash
 YOCTO_SDK_ROOT_32="/opt/yocto-toolchain/32"
 YOCTO_SDK_ROOT_64="/opt/yocto-toolchain/64"
