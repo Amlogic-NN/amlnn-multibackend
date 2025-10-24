@@ -1,13 +1,13 @@
 ## 🚀 Quick Start (32-bit Board Example)
 
 ### 1. Select a Demo
-- **Classification**: `case/classify/`  
-- **Detection**: `case/detect/` (will generate `*_det.jpg` after each run)
+- **Classification**: `demo/classify/`  
+- **Detection**: `demo/detect/` (will generate `*_det.jpg` after each run)
 
 ### 2. Push Demo Files to Board
 ```bash
-adb push case/classify /tmp/classify
-adb push case/detect /tmp/detect
+adb push demo/classify /tmp/classify
+adb push demo/detect /tmp/detect
 ```
 
 ### 3. Run Classification
@@ -52,7 +52,7 @@ chmod +x tf_delegate_detect_32
 
 - GPU mode requires proper hardware support and drivers.
 - The detection demo saves annotated images as `.jpg` next to the input file.
-- You can test other models or images by placing them in the corresponding `case/` subdirectory and adjusting the command parameters.
+- You can test other models or images by placing them in the corresponding `demo/` subdirectory and adjusting the command parameters.
 - This project is intended for rapid validation of the **Amlogic NN Delegate** on embedded boards.
 
 
@@ -73,4 +73,5 @@ This document contains:
 
 For detailed rebuid from source, please refer to the following file:
 📄 [NNSDK/demo_src/readme.md](./demo_src/readme.md)
+
 
