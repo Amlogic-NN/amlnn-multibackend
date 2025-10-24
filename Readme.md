@@ -75,7 +75,7 @@ If your board does not support NPU or you prefer the **MNN** backend:
 
 ## 🧾 Typical Workflow
 
-1. Select backend: **NNSDK** (CPU/GPU) or **MNN** (CPU/GPU)  
+1. Select backend: **NNSDK** (NPU/CPU/GPU) or **MNN** (CPU/GPU)  
 2. Convert your model (e.g., TFLite, ONNX) to supported format  
 3. Push executable and model to Amlogic board  
 4. Run demo to validate  
@@ -103,5 +103,6 @@ It is intended for evaluation and development purposes with **Amlogic NN SDK**.
 <p align="center">
   Made with ❤️ for Embedded AI Development
 </p>
+
 
 
