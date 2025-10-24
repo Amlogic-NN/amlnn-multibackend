@@ -184,7 +184,9 @@ C:\path\of\MNN>adb shell "cd /data/MNN_demo;./multiPose.out resource/model-mobil
     │       ├── test_input.bin
     │       └── test_input.jpeg
     └── MNN_lib
-    	└── 32
-        	└── libMNN.so      # MNN library
+    │	└── 32
+    │    	└── libMNN.so      # MNN library
+    └── TOOL                   # MNNCovert
 ```
+
 
