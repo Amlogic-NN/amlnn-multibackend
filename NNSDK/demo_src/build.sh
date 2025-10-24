@@ -7,18 +7,17 @@ if [[ $# -ne 1 ]]; then
 fi
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CASE_DIR="${ROOT_DIR}/demo"
+REPO_ROOT="$(cd "${ROOT_DIR}/.." && pwd)"
+CASE_DIR="${REPO_ROOT}/demo"
 TARGET="${1}"
 
 case "${TARGET}" in
   classify)
-    PROJECT_DIR="${ROOT_DIR}/demo_src/classify"
-    CASE_SUBDIR="${CASE_DIR}/classify"
+    PROJECT_DIR="${ROOT_DIR}/classify"
     YOCTO_BIN_NAME="tf_delegate_classify"
     ;;
   detect)
-    PROJECT_DIR="${ROOT_DIR}/example/detect"
-    CASE_SUBDIR="${CASE_DIR}/detect"
+    PROJECT_DIR="${ROOT_DIR}/detect"
     YOCTO_BIN_NAME="tf_delegate_detect"
     ;;
   *)
@@ -26,6 +25,18 @@ case "${TARGET}" in
     exit 1
     ;;
 esac
+
+CASE_SUBDIR="${CASE_DIR}/${TARGET}"
+
+if [[ ! -d "${PROJECT_DIR}" ]]; then
+  echo "error: project directory not found: ${PROJECT_DIR}" >&2
+  exit 1
+fi
+
+if [[ ! -d "${CASE_DIR}" ]]; then
+  echo "error: install base directory not found: ${CASE_DIR}" >&2
+  exit 1
+fi
 
 YOCTO_BUILD_ROOT="${ROOT_DIR}/build/yocto_${TARGET}"
 
@@ -36,10 +47,17 @@ YOCTO_SDK_ROOT_64="${YOCTO_SDK_ROOT_64:-/your/yocto/root/path/environment/new-yo
 YOCTO_ARCH_BITS=("32" "64")
 
 ensure_cmake() {
-  if ! command -v "${CMAKE_BIN}" >/dev/null 2>&1; then
-    echo "error: unable to find cmake, set CMAKE_BIN to a valid cmake binary." >&2
-    exit 1
+  if command -v "${CMAKE_BIN}" >/dev/null 2>&1; then
+    return
   fi
+
+  if command -v cmake >/dev/null 2>&1; then
+    CMAKE_BIN="$(command -v cmake)"
+    return
+  fi
+
+  echo "error: unable to find cmake, set CMAKE_BIN to a valid cmake binary." >&2
+  exit 1
 }
 
 build_yocto() {

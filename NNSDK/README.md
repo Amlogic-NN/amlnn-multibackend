@@ -1,16 +1,24 @@
 ## 🚀 Quick Start (32-bit Board Example)
 
-### 1. Select a Demo
+### 1. Push so to Board
+
+```bash
+adb push nnsdk_lib/lib/linux/lib32_yocto/libAmlTFDelegate.so /usr/lib
+adb push nnsdk_lib/lib/linux/lib32_yocto/libnnsdk.so /usr/lib
+```
+
+### 2. Select a Demo
+
 - **Classification**: `demo/classify/`  
 - **Detection**: `demo/detect/` (will generate `*_det.jpg` after each run)
 
-### 2. Push Demo Files to Board
+### 3. Push Demo Files to Board
 ```bash
 adb push demo/classify /tmp/classify
 adb push demo/detect /tmp/detect
 ```
 
-### 3. Run Classification
+### 4. Run Classification
 ```bash
 adb shell
 cd /tmp/classify
@@ -20,12 +28,12 @@ chmod +x tf_delegate_classify_32
 - Prints **Top-5 predictions** with confidence scores  
 - `0` means using **CPU backend**
 
-### 4. Run Detection
+### 5. Run Detection
 ```bash
 adb shell
 cd /tmp/detect
 chmod +x tf_delegate_detect_32
-./tf_delegate_detect_32 yolov8n_uint8.tflite zidane.jpg 0
+./tf_delegate_detect_32 yolov8m_416-416_1out_int8.tflite zidane.jpg 0
 ```
 - Detection results are printed  
 - Annotated image saved as `zidane_det.jpg`  
@@ -54,8 +62,6 @@ chmod +x tf_delegate_detect_32
 - The detection demo saves annotated images as `.jpg` next to the input file.
 - You can test other models or images by placing them in the corresponding `demo/` subdirectory and adjusting the command parameters.
 - This project is intended for rapid validation of the **Amlogic NN Delegate** on embedded boards.
-
-
 
 ## 📘 API Introduction
 
