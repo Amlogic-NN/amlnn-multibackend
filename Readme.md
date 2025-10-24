@@ -2,7 +2,7 @@
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Amlogic_logo.svg/500px-Amlogic_logo.svg.png" alt="Amlogic Logo" width="200"/>
 </p>
 
-<h1 align="center">Amlogic NN SDK Demo</h1>
+<h1 align="center">Amlogic AI Software Development Kit</h1>
 
 <p align="center">
   🧠 Image Classification & Object Detection on Amlogic Boards  
@@ -15,7 +15,6 @@
 
 ---
 
-# Amlogic AI Software Development Kit
 
 ## Intro
 
@@ -65,4 +64,5 @@ https://github.com/alibaba/MNN
 
 
 Apache 2.0
+
 
