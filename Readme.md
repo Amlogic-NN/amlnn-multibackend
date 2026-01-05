@@ -21,7 +21,7 @@ Amlogic provides multiple **AI deployment solutions** that support NPU, CPU, and
 If your board supports **NPU**, you can directly use **NNSDK** for optimal performance.  
 If your board does not have an NPU, you can still deploy models on **CPU** or **GPU** with ease.
 
-👉 For official documentation and NPU support, please visit [Amlogic](https://www.amlogic.cn/).
+👉 For official documentation and NPU support, please visit [Amlogic](https://www.amlogic.com/).
 
 We currently support two deployment paths:
 - **NNSDK path** — TensorFlow Lite–based deployment solution developed by Amlogic.  
@@ -103,6 +103,7 @@ It is intended for evaluation and development purposes with **Amlogic NN SDK**.
 <p align="center">
   Made with ❤️ for Embedded AI Development
 </p>
+
 
 
 
