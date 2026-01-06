@@ -100,9 +100,8 @@ It is intended for evaluation and development purposes with **Amlogic NN SDK**.
 
 ---
 
-<p align="center">
-  Made with ❤️ for Embedded AI Development
-</p>
+
+
 
 
 
