@@ -1,3 +1,9 @@
+## 🧰 Environment Setup & Rebuild (Optional)
+
+For detailed rebuid from source, please refer to the following file:  
+
+📄 [NNSDK/demo_src/readme.md](./demo_src/readme.md)
+
 ## 🚀 Quick Start (32-bit Board Example)
 
 ### 1. Push so to Board
@@ -75,9 +81,7 @@ This document contains:
 - Integration guidelines for developers
 
 
-## 🧰 Environment Setup & Rebuild (Optional)
 
-For detailed rebuid from source, please refer to the following file:
-📄 [NNSDK/demo_src/readme.md](./demo_src/readme.md)
+
 
 
