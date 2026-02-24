@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -ne 1 ]]; then
-  echo "Usage: $0 classify|detect" >&2
+if [[ $# -lt 1 || $# -gt 2 ]]; then
+  echo "Usage: $0 classify|detect [32|64]" >&2
   exit 1
 fi
 
@@ -10,6 +10,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${ROOT_DIR}/.." && pwd)"
 CASE_DIR="${REPO_ROOT}/demo"
 TARGET="${1}"
+ARCH_BITS="${2:-64}"
 
 case "${TARGET}" in
   classify)
@@ -21,104 +22,83 @@ case "${TARGET}" in
     YOCTO_BIN_NAME="tf_delegate_detect"
     ;;
   *)
-    echo "Unsupported target \"${TARGET}\". Usage: $0 classify|detect" >&2
+    echo "Unsupported target \"${TARGET}\". Usage: $0 classify|detect [32|64]" >&2
     exit 1
     ;;
 esac
 
+if [[ "${ARCH_BITS}" != "32" && "${ARCH_BITS}" != "64" ]]; then
+  echo "Unsupported ARCH_BITS \"${ARCH_BITS}\". Must be 32 or 64." >&2
+  exit 1
+fi
+
+# ---------------------------------------------------------------------------
+# Configurable via environment variables
+# ---------------------------------------------------------------------------
+CMAKE_BIN="${CMAKE_BIN:-cmake}"
+YOCTO_SDK_ROOT="${YOCTO_SDK_ROOT:-/data/yuandian/tools/poky/4.0.20}"
+
+# Default to the built-in Yocto toolchain; override with any CMake toolchain file
+TOOLCHAIN_FILE="${TOOLCHAIN_FILE:-${ROOT_DIR}/cmake/yocto-toolchain.cmake}"
+
+# Export variables for CMake (important for try_compile and toolchain fallbacks)
+export YOCTO_SDK_ROOT
+export ARCH_BITS
+
+# ---------------------------------------------------------------------------
+
 CASE_SUBDIR="${CASE_DIR}/${TARGET}"
+BUILD_DIR="${ROOT_DIR}/build/yocto_${TARGET}/${ARCH_BITS}"
 
 if [[ ! -d "${PROJECT_DIR}" ]]; then
   echo "error: project directory not found: ${PROJECT_DIR}" >&2
   exit 1
 fi
-
 if [[ ! -d "${CASE_DIR}" ]]; then
   echo "error: install base directory not found: ${CASE_DIR}" >&2
   exit 1
 fi
 
-YOCTO_BUILD_ROOT="${ROOT_DIR}/build/yocto_${TARGET}"
+echo "==> Building Yocto ${ARCH_BITS}-bit"
+echo "    toolchain : ${TOOLCHAIN_FILE}"
+echo "    SDK root  : ${YOCTO_SDK_ROOT}"
 
-CMAKE_BIN="${CMAKE_BIN:-/your/cmake/path/cmake-3.24.0-linux-x86_64/bin/cmake}"
+mkdir -p "${CASE_SUBDIR}"
+rm -rf "${BUILD_DIR}"
 
-YOCTO_SDK_ROOT_32="${YOCTO_SDK_ROOT_32:-/your/yocto/root/path/environment/new-yocto/32}"
-YOCTO_SDK_ROOT_64="${YOCTO_SDK_ROOT_64:-/your/yocto/root/path/environment/new-yocto/64}"
-YOCTO_ARCH_BITS=("32" "64")
+"${CMAKE_BIN}" \
+  -S "${PROJECT_DIR}" \
+  -B "${BUILD_DIR}" \
+  -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_FILE}" \
+  -DYOCTO_SDK_ROOT="${YOCTO_SDK_ROOT}" \
+  -DARCH_BITS="${ARCH_BITS}" \
+  -DCMAKE_BUILD_TYPE=Release
 
-ensure_cmake() {
-  if command -v "${CMAKE_BIN}" >/dev/null 2>&1; then
-    return
-  fi
+"${CMAKE_BIN}" --build "${BUILD_DIR}" --config Release --target "${YOCTO_BIN_NAME}"
 
-  if command -v cmake >/dev/null 2>&1; then
-    CMAKE_BIN="$(command -v cmake)"
-    return
-  fi
+SRC="${BUILD_DIR}/bin/${YOCTO_BIN_NAME}"
+DEST="${CASE_SUBDIR}/${YOCTO_BIN_NAME}_${ARCH_BITS}"
 
-  echo "error: unable to find cmake, set CMAKE_BIN to a valid cmake binary." >&2
+if [[ ! -f "${SRC}" ]]; then
+  echo "error: build artifact not found: ${SRC}" >&2
   exit 1
-}
+fi
 
-build_yocto() {
-  mkdir -p "${CASE_SUBDIR}"
-  rm -rf "${YOCTO_BUILD_ROOT}"
+cp "${SRC}" "${DEST}"
+chmod +x "${DEST}"
 
-  for bits in "${YOCTO_ARCH_BITS[@]}"; do
-    local sdk_root cross_triple suffix
-    if [[ "${bits}" == "32" ]]; then
-      sdk_root="${YOCTO_SDK_ROOT_32}"
-      cross_triple="arm-poky-linux-gnueabi"
-      suffix="32"
-    elif [[ "${bits}" == "64" ]]; then
-      sdk_root="${YOCTO_SDK_ROOT_64}"
-      cross_triple="aarch64-poky-linux"
-      suffix="64"
-    else
-      echo "error: unsupported ARCH_BITS '${bits}'." >&2
-      exit 1
-    fi
+# Strip (best-effort)
+HOST_SYSROOT="${YOCTO_SDK_ROOT}/sysroots/x86_64-pokysdk-linux"
+if [[ "${ARCH_BITS}" == "32" ]]; then
+  CROSS_TRIPLE="arm-poky-linux-gnueabi"
+else
+  CROSS_TRIPLE="aarch64-poky-linux"
+fi
+STRIP_TOOL="${HOST_SYSROOT}/usr/bin/${CROSS_TRIPLE}/${CROSS_TRIPLE}-strip"
+if [[ -x "${STRIP_TOOL}" ]]; then
+  "${STRIP_TOOL}" --strip-unneeded "${DEST}"
+else
+  echo "warning: strip tool not found; keeping debug info." >&2
+fi
 
-    if [[ ! -d "${sdk_root}" ]]; then
-      echo "error: Yocto SDK root not found: ${sdk_root}" >&2
-      exit 1
-    fi
-
-    echo "==> Building Yocto ${bits}-bit (SDK: ${sdk_root})"
-    local build_dir="${YOCTO_BUILD_ROOT}/${bits}"
-
-    "${CMAKE_BIN}" \
-      -S "${PROJECT_DIR}" \
-      -B "${build_dir}" \
-      -DARCH_BITS="${bits}" \
-      -DYOCTO_SDK_ROOT="${sdk_root}" \
-      -DCMAKE_BUILD_TYPE=Release
-
-    "${CMAKE_BIN}" --build "${build_dir}" --config Release --target "${YOCTO_BIN_NAME}"
-
-    local src="${build_dir}/bin/${YOCTO_BIN_NAME}"
-    local dest="${CASE_SUBDIR}/${YOCTO_BIN_NAME}_${suffix}"
-
-    if [[ ! -f "${src}" ]]; then
-      echo "error: build artifact not found: ${src}" >&2
-      exit 1
-    fi
-
-    cp "${src}" "${dest}"
-    chmod +x "${dest}"
-
-    local strip_tool="${sdk_root}/sysroots/x86_64-pokysdk-linux/usr/bin/${cross_triple}/${cross_triple}-strip"
-    if [[ -x "${strip_tool}" ]]; then
-      "${strip_tool}" --strip-unneeded "${dest}"
-    else
-      echo "warning: strip tool not found (${strip_tool}); keeping debug info in output." >&2
-    fi
-
-    echo "Installed ${dest}"
-  done
-
-  echo "Yocto build completed."
-}
-
-ensure_cmake
-build_yocto
+echo "Done: ${DEST}"

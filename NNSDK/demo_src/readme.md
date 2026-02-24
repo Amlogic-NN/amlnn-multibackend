@@ -13,21 +13,40 @@
 - 64-bit: 
   `poky-glibc-x86_64-meta-toolchain-armv8a-mesont7-an400-5.15-a64-toolchain-4.0.20.sh`
 
-Place the script under `/opt/yocto-toolchain/32` or `/opt/yocto-toolchain/64`and run it to install.
+Run the installer and note the installation path (e.g. `/opt/yocto-toolchain/`).
 
 ### 3. Configure and Rebuild
-⚠ Build Notes
-
-Before rebuilding the demo, please **edit the `build.sh` script** and set the correct paths for your local environment:
-<img width="700" height="150" alt="image" src="https://github.com/user-attachments/assets/ce7cd0a6-0c6b-47ab-8558-16ce9d459a2e" />
-
 
 ```bash
-CMAKE_BIN="/opt/cmake-3.24.0-linux-x86_64/bin/cmake"
-YOCTO_SDK_ROOT_32="/opt/yocto-toolchain/32"
-YOCTO_SDK_ROOT_64="/opt/yocto-toolchain/64"
-
 chmod +x build.sh
-./build.sh classify   # Builds tf_delegate_classify_32/64
-./build.sh detect     # Builds tf_delegate_detect_32/64
+
+# Build 64-bit (default)
+./build.sh detect
+./build.sh classify
+
+# Build 32-bit
+./build.sh detect 32
+./build.sh classify 32
 ```
+
+Override the SDK path or Toolchain file via environment variables if needed:
+
+```bash
+# Override SDK root
+YOCTO_SDK_ROOT=/opt/yocto-toolchain ./build.sh detect
+
+# Use a custom CMake toolchain file
+TOOLCHAIN_FILE=/path/to/your/toolchain.cmake ./build.sh detect
+
+# Specify CMake binary and SDK root
+YOCTO_SDK_ROOT=/opt/yocto-toolchain CMAKE_BIN=/opt/cmake/bin/cmake ./build.sh detect
+```
+
+Output binaries are placed in `../demo/<target>/`:
+
+| Binary | Description |
+|---|---|
+| `tf_delegate_detect_64` | Object detection, 64-bit |
+| `tf_delegate_detect_32` | Object detection, 32-bit |
+| `tf_delegate_classify_64` | Classification, 64-bit |
+| `tf_delegate_classify_32` | Classification, 32-bit |
